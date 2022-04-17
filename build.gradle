@@ -17,6 +17,8 @@ application {
 dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+    implementation 'info.picocli:picocli:4.6.3'
+    annotationProcessor 'info.picocli:picocli-codegen:4.6.3'
 }
 
 jar {
@@ -31,6 +33,7 @@ jar {
 
 compileJava {
     options.release = 17
+    options.compilerArgs += ["-Aproject=${project.group}/${project.name}"]
 }
 
 test {
