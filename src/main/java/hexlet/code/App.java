@@ -7,9 +7,10 @@ import java.util.concurrent.Callable;
 
 @CommandLine.Command(name = "gendiff", mixinStandardHelpOptions = true,
         description = "Compares two configuration files and shows a difference.")
-public class App implements Callable<Integer> {
+public final class App implements Callable<Integer> {
 
-    @CommandLine.Option(names = {"-f", "--format"}, paramLabel = "format", description = "output format [default: stylish]")
+    @CommandLine.Option(names = {"-f", "--format"}, paramLabel = "format",
+            description = "output format [default: stylish]")
     private String format = "";
 
     @CommandLine.Parameters(paramLabel = "filepath1", description = "path to first file")

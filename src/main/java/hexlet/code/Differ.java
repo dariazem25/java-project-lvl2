@@ -5,7 +5,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 
 public class Differ {
 
@@ -35,13 +39,17 @@ public class Differ {
         } else {
             for (String key : setOfKeys) {
                 if (map2.containsKey(key) && map1.containsKey(key) && map2.get(key).equals(map1.get(key))) {
-                    result.add(Map.of("key", key, "oldValue", map1.get(key), "newValue", map2.get(key), "status", "unchanged"));
+                    result.add(Map.of("key", key, "oldValue", map1.get(key),
+                            "newValue", map2.get(key), "status", "unchanged"));
                 } else if (map2.containsKey(key) && map1.containsKey(key) && !(map2.get(key).equals(map1.get(key)))) {
-                    result.add(Map.of("key", key, "oldValue", map1.get(key), "newValue", map2.get(key), "status", "changed"));
+                    result.add(Map.of("key", key, "oldValue", map1.get(key),
+                            "newValue", map2.get(key), "status", "changed"));
                 } else if (!map2.containsKey(key)) {
-                    result.add(Map.of("key", key, "oldValue", map1.get(key), "status", "deleted"));
+                    result.add(Map.of("key", key, "oldValue", map1.get(key),
+                            "status", "deleted"));
                 } else if (!map1.containsKey(key)) {
-                    result.add(Map.of("key", key, "newValue", map2.get(key), "status", "added"));
+                    result.add(Map.of("key", key, "newValue", map2.get(key),
+                            "status", "added"));
                 }
             }
         }
@@ -53,14 +61,19 @@ public class Differ {
         result.append("{");
         for (Map<String, Object> map : list) {
             if (map.get("status").equals("unchanged")) {
-                result.append("\n").append("\s").append("\s").append("\s").append(map.get("key")).append(": ").append(map.get("oldValue"));
+                result.append("\n").append("\s").append("\s").append("\s")
+                        .append(map.get("key")).append(": ").append(map.get("oldValue"));
             } else if (map.get("status").equals("changed")) {
-                result.append("\n").append("\s").append("- ").append(map.get("key")).append(": ").append(map.get("oldValue"));
-                result.append("\n").append("\s").append("+ ").append(map.get("key")).append(": ").append(map.get("newValue"));
+                result.append("\n").append("\s").append("- ").append(map.get("key"))
+                        .append(": ").append(map.get("oldValue"));
+                result.append("\n").append("\s").append("+ ").append(map.get("key"))
+                        .append(": ").append(map.get("newValue"));
             } else if (map.get("status").equals("deleted")) {
-                result.append("\n").append("\s").append("- ").append(map.get("key")).append(": ").append(map.get("oldValue"));
+                result.append("\n").append("\s").append("- ").append(map.get("key"))
+                        .append(": ").append(map.get("oldValue"));
             } else if (map.get("status").equals("added")) {
-                result.append("\n").append("\s").append("+ ").append(map.get("key")).append(": ").append(map.get("newValue"));
+                result.append("\n").append("\s").append("+ ").append(map.get("key"))
+                        .append(": ").append(map.get("newValue"));
             }
         }
         result.append("\n").append("}");

@@ -1,0 +1,6 @@
+{
+  "host": "yandex.io",
+  "timeout": 100,
+  "proxy": "255.255.255.255",
+  "follow": true
+}
