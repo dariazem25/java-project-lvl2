@@ -1,9 +1,5 @@
 package hexlet.code;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,14 +10,8 @@ import java.util.TreeSet;
 public class Differ {
 
     public static String generate(Path path1, Path path2) throws Exception {
-        String file1 = Files.readString(path1.toAbsolutePath());
-        String file2 = Files.readString(path2.toAbsolutePath());
-        ObjectMapper objectMapper = new ObjectMapper();
-        Map<String, Object> map1 = objectMapper.readValue(file1, new TypeReference<>() {
-        });
-        Map<String, Object> map2 = objectMapper.readValue(file2, new TypeReference<>() {
-        });
-
+        Map<String, Object> map1 = Parser.parse(path1);
+        Map<String, Object> map2 = Parser.parse(path2);
         List<Map<String, Object>> result = new ArrayList<>();
         Set<String> setOfKeys = new TreeSet<>(map1.keySet());
         setOfKeys.addAll(map2.keySet());

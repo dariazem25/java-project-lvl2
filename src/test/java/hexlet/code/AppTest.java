@@ -94,7 +94,7 @@ public class AppTest {
     void differentExtensions() {
         Path path1 = Paths.get("src", "test", "resources", "file1.json");
         Path path2 = Paths.get("src", "test", "resources", "file7.txt");
-        assertThrows(JsonParseException.class, () -> Differ.generate(path1, path2));
+        assertThrows(RuntimeException.class, () -> Differ.generate(path1, path2));
     }
 
     @Test
@@ -102,5 +102,21 @@ public class AppTest {
         Path path1 = Paths.get("src", "test", "resources", "file1.json");
         Path path2 = Paths.get("src", "test", "resources", "file8.json");
         assertThrows(NoSuchFileException.class, () -> Differ.generate(path1, path2));
+    }
+
+    @Test
+    void partiallyDifferentFilesYaml() throws Exception {
+        Path path1 = Paths.get("src", "test", "resources", "file8.yml");
+        Path path2 = Paths.get("src", "test", "resources", "file9.yml");
+        String expected = "{"
+                + "\n" + " - follow: false"
+                + "\n" + "   host: hexlet.io"
+                + "\n" + " - proxy: 123.234.53.22"
+                + "\n" + " - timeout: 50"
+                + "\n" + " + timeout: 20"
+                + "\n" + " + verbose: true"
+                + "\n" + "}";
+        String actual = Differ.generate(path1, path2);
+        Assertions.assertEquals(expected, actual);
     }
 }
