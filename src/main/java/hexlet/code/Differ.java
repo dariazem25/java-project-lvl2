@@ -11,7 +11,7 @@ import java.util.TreeSet;
 
 public class Differ {
 
-    public static String generate(Path path1, Path path2) throws Exception {
+    public static String generate(Path path1, Path path2, String... formatName) throws Exception {
         Map<String, Object> map1 = Parser.parse(path1);
         Map<String, Object> map2 = Parser.parse(path2);
         List<Map<String, Object>> result = new ArrayList<>();
@@ -62,25 +62,6 @@ public class Differ {
                 result.add(map);
             }
         }
-        return stylish(result);
-    }
-
-    private static String stylish(List<Map<String, Object>> list) {
-        StringBuilder result = new StringBuilder();
-        result.append("{");
-        for (Map<String, Object> map : list) {
-            if (map.get("status").equals("unchanged")) {
-                result.append("\n\s\s\s").append(map.get("key")).append(": ").append(map.get("oldValue"));
-            } else if (map.get("status").equals("changed")) {
-                result.append("\n\s- ").append(map.get("key")).append(": ").append(map.get("oldValue"));
-                result.append("\n\s+ ").append(map.get("key")).append(": ").append(map.get("newValue"));
-            } else if (map.get("status").equals("deleted")) {
-                result.append("\n\s- ").append(map.get("key")).append(": ").append(map.get("oldValue"));
-            } else if (map.get("status").equals("added")) {
-                result.append("\n\s+ ").append(map.get("key")).append(": ").append(map.get("newValue"));
-            }
-        }
-        result.append("\n").append("}");
-        return result.toString();
+        return Formatter.format(result, formatName);
     }
 }
