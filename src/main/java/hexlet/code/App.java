@@ -9,9 +9,9 @@ import java.util.concurrent.Callable;
         description = "Compares two configuration files and shows a difference.")
 public final class App implements Callable<Integer> {
 
-    @CommandLine.Option(names = {"-f", "--format"}, paramLabel = "format",
+    @CommandLine.Option(names = {"-f", "--format"}, defaultValue = "stylish",  paramLabel = "format",
             description = "output format [default: stylish]")
-    private String format = "";
+    private String format;
 
     @CommandLine.Parameters(paramLabel = "filepath1", description = "path to first file")
     private Path filepath1;
