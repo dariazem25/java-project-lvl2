@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 
 import java.nio.file.Path;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class Parser {
@@ -21,7 +22,7 @@ public class Parser {
         } else {
             throw new RuntimeException("Invalid or unsupported extension");
         }
-        return mapper.readValue(file, new TypeReference<>() {
-        });
+        return !file.isEmpty() ? mapper.readValue(file, new TypeReference<>() {
+        }) : new LinkedHashMap<>();
     }
 }

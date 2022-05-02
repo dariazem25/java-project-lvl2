@@ -18,22 +18,15 @@ public class Differ {
         Set<String> setOfKeys = new TreeSet<>(map1.keySet());
         setOfKeys.addAll(map2.keySet());
 
-        if (map1.isEmpty() && !map2.isEmpty()) {
-            Set<String> setMap2 = new TreeSet<>(map2.keySet());
-            for (String key : setMap2) {
+        if (map1.isEmpty() && !map2.isEmpty() || map2.isEmpty() && !map1.isEmpty()) {
+            Set<String> keySet = new TreeSet<>(map1.isEmpty() ? map2.keySet() : map1.keySet());
+            String status = map1.isEmpty() ? "added" : "deleted";
+            String property = map1.isEmpty() ? "newValue" : "oldValue";
+            for (String key : keySet) {
                 Map<String, Object> map = new LinkedHashMap<>();
                 map.put("key", key);
-                map.put("newValue", map2.get(key));
-                map.put("status", "added");
-                result.add(map);
-            }
-        } else if (map2.isEmpty() && !map1.isEmpty()) {
-            Set<String> setMap1 = new TreeSet<>(map1.keySet());
-            for (String key : setMap1) {
-                Map<String, Object> map = new LinkedHashMap<>();
-                map.put("key", key);
-                map.put("oldValue", map1.get(key));
-                map.put("status", "deleted");
+                map.put(property, map1.isEmpty() ? map2.get(key) : map1.get(key));
+                map.put("status", status);
                 result.add(map);
             }
         } else {
@@ -42,7 +35,6 @@ public class Differ {
                 if (map2.containsKey(key) && map1.containsKey(key) && Objects.equals(map2.get(key), map1.get(key))) {
                     map.put("key", key);
                     map.put("oldValue", map1.get(key));
-                    map.put("newValue", map2.get(key));
                     map.put("status", "unchanged");
                 } else if (map2.containsKey(key) && map1.containsKey(key)
                         && !(Objects.equals(map2.get(key), map1.get(key)))) {

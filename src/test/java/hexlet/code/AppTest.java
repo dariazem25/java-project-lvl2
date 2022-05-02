@@ -30,7 +30,7 @@ public class AppTest {
     }
 
     @Test
-    void sameFilesStylishJson() throws Exception {
+    void sameJsonFilesDefaultFormat() throws Exception {
         Path path1 = Paths.get("src", "test", "resources", "file1.json");
         Path path2 = Paths.get("src", "test", "resources", "file1.json");
         String expected = """
@@ -45,7 +45,7 @@ public class AppTest {
     }
 
     @Test
-    void sameFilesStylishYaml() throws Exception {
+    void sameYamlFilesDefaultFormat() throws Exception {
         Path path1 = Paths.get("src", "test", "resources", "file8.yml");
         Path path2 = Paths.get("src", "test", "resources", "file8.yml");
         String expected = """
@@ -79,7 +79,7 @@ public class AppTest {
     }
 
     @Test
-    void differentTypes() throws Exception {
+    void differentValueTypes() throws Exception {
         Path path1 = Paths.get("src", "test", "resources", "file2.json");
         Path path2 = Paths.get("src", "test", "resources", "file4.json");
         String expected = """
@@ -94,7 +94,7 @@ public class AppTest {
     }
 
     @Test
-    void emptyFiles() throws Exception {
+    void emptyJsonFiles() throws Exception {
         Path path1 = Paths.get("src", "test", "resources", "file5.json");
         Path path2 = Paths.get("src", "test", "resources", "file5.json");
         String expected = "{" + "\n" + "}";
@@ -103,7 +103,146 @@ public class AppTest {
     }
 
     @Test
-    void incorrectFileFormat() {
+    void emptyJsonFilesPlainFormat() throws Exception {
+        Path path1 = Paths.get("src", "test", "resources", "file5.json");
+        Path path2 = Paths.get("src", "test", "resources", "file5.json");
+        String expected = "The files are the same";
+        String actual = Differ.generate(path1, path2, "plain");
+        Assertions.assertEquals(expected, actual);
+    }
+
+    @Test
+    void emptyYamlFiles() throws Exception {
+        Path path1 = Paths.get("src", "test", "resources", "empty.yml");
+        Path path2 = Paths.get("src", "test", "resources", "empty.yml");
+        String expected = "{" + "\n" + "}";
+        String actual = Differ.generate(path1, path2);
+        Assertions.assertEquals(expected, actual);
+    }
+
+    @Test
+    void emptyYamlFilesPlainFormat() throws Exception {
+        Path path1 = Paths.get("src", "test", "resources", "empty.yml");
+        Path path2 = Paths.get("src", "test", "resources", "empty.yml");
+        String expected = "The files are the same";
+        String actual = Differ.generate(path1, path2, "plain");
+        Assertions.assertEquals(expected, actual);
+    }
+
+    @Test
+    void firstJsonFileEmpty() throws Exception {
+        Path path1 = Paths.get("src", "test", "resources", "file5.json");
+        Path path2 = Paths.get("src", "test", "resources", "file1.json");
+        String expected = """
+                {
+                 + follow: false
+                 + host: hexlet.io
+                 + proxy: 123.234.53.22
+                 + timeout: 50
+                }""";
+        String actual = Differ.generate(path1, path2);
+        Assertions.assertEquals(expected, actual);
+    }
+
+    @Test
+    void firstJsonFileEmptyPlainFormat() throws Exception {
+        Path path1 = Paths.get("src", "test", "resources", "file5.json");
+        Path path2 = Paths.get("src", "test", "resources", "file1.json");
+        String expected = """
+                Property 'follow' was added with value: false
+                Property 'host' was added with value: 'hexlet.io'
+                Property 'proxy' was added with value: '123.234.53.22'
+                Property 'timeout' was added with value: 50""";
+        String actual = Differ.generate(path1, path2, "plain");
+        Assertions.assertEquals(expected, actual);
+    }
+
+    @Test
+    void secondJsonFileEmpty() throws Exception {
+        Path path1 = Paths.get("src", "test", "resources", "file1.json");
+        Path path2 = Paths.get("src", "test", "resources", "file5.json");
+        String expected = """
+                {
+                 - follow: false
+                 - host: hexlet.io
+                 - proxy: 123.234.53.22
+                 - timeout: 50
+                }""";
+        String actual = Differ.generate(path1, path2);
+        Assertions.assertEquals(expected, actual);
+    }
+
+    @Test
+    void secondJsonFileEmptyPlainFormat() throws Exception {
+        Path path1 = Paths.get("src", "test", "resources", "file1.json");
+        Path path2 = Paths.get("src", "test", "resources", "file5.json");
+        String expected = """
+                Property 'follow' was removed
+                Property 'host' was removed
+                Property 'proxy' was removed
+                Property 'timeout' was removed""";
+        String actual = Differ.generate(path1, path2, "plain");
+        Assertions.assertEquals(expected, actual);
+    }
+
+    @Test
+    void firstYamlFileEmpty() throws Exception {
+        Path path1 = Paths.get("src", "test", "resources", "empty.yml");
+        Path path2 = Paths.get("src", "test", "resources", "file8.yml");
+        String expected = """
+                {
+                 + follow: false
+                 + host: hexlet.io
+                 + proxy: 123.234.53.22
+                 + timeout: 50
+                }""";
+        String actual = Differ.generate(path1, path2);
+        Assertions.assertEquals(expected, actual);
+    }
+
+    @Test
+    void firstYamlFileEmptyPlainFormat() throws Exception {
+        Path path1 = Paths.get("src", "test", "resources", "empty.yml");
+        Path path2 = Paths.get("src", "test", "resources", "file8.yml");
+        String expected = """
+                Property 'follow' was added with value: false
+                Property 'host' was added with value: 'hexlet.io'
+                Property 'proxy' was added with value: '123.234.53.22'
+                Property 'timeout' was added with value: 50""";
+        String actual = Differ.generate(path1, path2, "plain");
+        Assertions.assertEquals(expected, actual);
+    }
+
+    @Test
+    void secondYamlFileEmpty() throws Exception {
+        Path path1 = Paths.get("src", "test", "resources", "file8.yml");
+        Path path2 = Paths.get("src", "test", "resources", "empty.yml");
+        String expected = """
+                {
+                 - follow: false
+                 - host: hexlet.io
+                 - proxy: 123.234.53.22
+                 - timeout: 50
+                }""";
+        String actual = Differ.generate(path1, path2);
+        Assertions.assertEquals(expected, actual);
+    }
+
+    @Test
+    void secondYamlFileEmptyPlainFormat() throws Exception {
+        Path path1 = Paths.get("src", "test", "resources", "file8.yml");
+        Path path2 = Paths.get("src", "test", "resources", "empty.yml");
+        String expected = """
+                Property 'follow' was removed
+                Property 'host' was removed
+                Property 'proxy' was removed
+                Property 'timeout' was removed""";
+        String actual = Differ.generate(path1, path2, "plain");
+        Assertions.assertEquals(expected, actual);
+    }
+
+    @Test
+    void incorrectFileStructure() {
         Path path1 = Paths.get("src", "test", "resources", "file2.json");
         Path path2 = Paths.get("src", "test", "resources", "file6.json");
         assertThrows(JsonParseException.class, () -> Differ.generate(path1, path2));
@@ -117,14 +256,14 @@ public class AppTest {
     }
 
     @Test
-    void fileIsAbsent() {
+    void fileAbsent() {
         Path path1 = Paths.get("src", "test", "resources", "file1.json");
         Path path2 = Paths.get("src", "test", "resources", "file8.json");
         assertThrows(NoSuchFileException.class, () -> Differ.generate(path1, path2));
     }
 
     @Test
-    void compareYamlFiles() throws Exception {
+    void compareYamlFilesDefaultFormat() throws Exception {
         Path path1 = Paths.get("src", "test", "resources", "file8.yml");
         Path path2 = Paths.get("src", "test", "resources", "file9.yml");
         String expected = """
@@ -141,7 +280,7 @@ public class AppTest {
     }
 
     @Test
-    void compareJsonFilesNested() throws Exception {
+    void compareJsonFilesNestedStructures() throws Exception {
         Path path1 = Paths.get("src", "test", "resources", "nested1.json");
         Path path2 = Paths.get("src", "test", "resources", "nested2.json");
         String expected = """
@@ -175,7 +314,7 @@ public class AppTest {
     }
 
     @Test
-    void compareYamlFilesNested() throws Exception {
+    void compareYamlFilesNestedStructures() throws Exception {
         Path path1 = Paths.get("src", "test", "resources", "nested1.yml");
         Path path2 = Paths.get("src", "test", "resources", "nested2.yml");
         String expected = """
@@ -209,7 +348,7 @@ public class AppTest {
     }
 
     @Test
-    void plainFormatJson() throws Exception {
+    void compareJsonFilesPlainFormat() throws Exception {
         Path path1 = Paths.get("src", "test", "resources", "nested1.json");
         Path path2 = Paths.get("src", "test", "resources", "nested2.json");
         String expected = """
@@ -231,7 +370,7 @@ public class AppTest {
     }
 
     @Test
-    void plainFormatYaml() throws Exception {
+    void compareYamlFilesPlainFormat() throws Exception {
         Path path1 = Paths.get("src", "test", "resources", "nested1.yml");
         Path path2 = Paths.get("src", "test", "resources", "nested2.yml");
         String expected = """
@@ -253,7 +392,7 @@ public class AppTest {
     }
 
     @Test
-    void stylishFormatJson() throws Exception {
+    void compareJsonFilesStylishFormat() throws Exception {
         Path path1 = Paths.get("src", "test", "resources", "nested1.json");
         Path path2 = Paths.get("src", "test", "resources", "nested2.json");
         String expected = """
@@ -287,7 +426,7 @@ public class AppTest {
     }
 
     @Test
-    void stylishFormatYaml() throws Exception {
+    void compareYamlFilesStylishFormat() throws Exception {
         Path path1 = Paths.get("src", "test", "resources", "nested1.yml");
         Path path2 = Paths.get("src", "test", "resources", "nested2.yml");
         String expected = """
@@ -328,7 +467,7 @@ public class AppTest {
     }
 
     @Test
-    void sameFilesPlainJson() throws Exception {
+    void sameJsonFilesPlainFormat() throws Exception {
         Path path1 = Paths.get("src", "test", "resources", "file1.json");
         Path path2 = Paths.get("src", "test", "resources", "file1.json");
         String expected = "The files are the same";
@@ -337,11 +476,29 @@ public class AppTest {
     }
 
     @Test
-    void sameFilesPlainYaml() throws Exception {
+    void sameYamlFilesPlainFormat() throws Exception {
         Path path1 = Paths.get("src", "test", "resources", "file8.yml");
         Path path2 = Paths.get("src", "test", "resources", "file8.yml");
         String expected = "The files are the same";
         String actual = Differ.generate(path1, path2, "plain");
+        Assertions.assertEquals(expected, actual);
+    }
+
+    @Test
+    void compareJsonFilesJsonFormat() throws Exception {
+        Path path1 = Paths.get("src", "test", "resources", "nested1.json");
+        Path path2 = Paths.get("src", "test", "resources", "nested2.json");
+        String actual = Differ.generate(path1, path2, "json");
+        String expected = FileReader.readFile(Paths.get("src", "test", "resources", "jsonFormat.json"));
+        Assertions.assertEquals(expected, actual);
+    }
+
+    @Test
+    void compareYamlFilesYamlFormat() throws Exception {
+        Path path1 = Paths.get("src", "test", "resources", "nested1.yml");
+        Path path2 = Paths.get("src", "test", "resources", "nested2.yml");
+        String actual = Differ.generate(path1, path2, "json");
+        String expected = FileReader.readFile(Paths.get("src", "test", "resources", "jsonFormat.json"));
         Assertions.assertEquals(expected, actual);
     }
 }

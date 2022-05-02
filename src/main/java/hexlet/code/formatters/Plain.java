@@ -25,17 +25,12 @@ public class Plain {
         return result.isEmpty() ? "The files are the same" : result.toString();
     }
 
-    private static String getValue(Object value) {
-        String val;
-        if (value == null) {
-            return null;
-        } else if (!value.getClass().getName().startsWith("java.lang")) {
-            val = "[complex value]";
+    private static Object getValue(Object value) {
+        if (value instanceof List || value instanceof Map) {
+            return "[complex value]";
         } else if (value instanceof String) {
-            val = "'" + value + "'";
-        } else {
-            val = value.toString();
+            return "'" + value + "'";
         }
-        return val;
+        return value;
     }
 }
