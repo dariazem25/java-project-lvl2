@@ -1,6 +1,6 @@
 {
- - host: hexlet.io
- + host: [hexlet.io, hexlet.io]
-   timeout: 20
-   verbose: true
+  - host: hexlet.io
+  + host: [hexlet.io, hexlet.io]
+    timeout: 20
+    verbose: true
 }

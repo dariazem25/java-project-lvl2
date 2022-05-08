@@ -1,10 +1,10 @@
 {
- - follow: false
- + follow: true
- - host: hexlet.io
- + host: yandex.io
- - proxy: 123.234.53.22
- + proxy: 255.255.255.255
- - timeout: 50
- + timeout: 100
+  - follow: false
+  + follow: true
+  - host: hexlet.io
+  + host: yandex.io
+  - proxy: 123.234.53.22
+  + proxy: 255.255.255.255
+  - timeout: 50
+  + timeout: 100
 }
