@@ -1,6 +1,5 @@
 package hexlet.code;
 
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -11,9 +10,19 @@ import java.util.TreeSet;
 
 public class Differ {
 
-    public static String generate(Path path1, Path path2, String... formatName) throws Exception {
-        Map<String, Object> map1 = Parser.parse(path1);
-        Map<String, Object> map2 = Parser.parse(path2);
+    public static String generate(String path1, String path2, String... formatName) throws Exception {
+        String data1 = FileReader.readFile(path1);
+        String data2 = FileReader.readFile(path2);
+
+        String extension1 = FileReader.getExtension(path1);
+        String extension2 = FileReader.getExtension(path2);
+
+        Map<String, Object> map1 = Parser.parse(data1, extension1);
+        Map<String, Object> map2 = Parser.parse(data2, extension2);
+        return Formatter.format(compare(map1, map2), formatName);
+    }
+
+    private static List<Map<String, Object>> compare(Map<String, Object> map1, Map<String, Object> map2) {
         List<Map<String, Object>> result = new ArrayList<>();
         Set<String> setOfKeys = new TreeSet<>(map1.keySet());
         setOfKeys.addAll(map2.keySet());
@@ -54,6 +63,6 @@ public class Differ {
                 result.add(map);
             }
         }
-        return Formatter.format(result, formatName);
+        return result;
     }
 }
