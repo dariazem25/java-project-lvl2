@@ -12,17 +12,21 @@ public class Plain {
             Object newValue = getValue(map.get("newValue"));
 
             if (map.get("status").equals("changed")) {
-                result.append(result.isEmpty() ? "" : "\n").append("Property ").append("'").append(map.get("key"))
-                        .append("' was updated. From ").append(oldValue).append(" to ").append(newValue);
+                getTemplate(result, map.get("key"));
+                result.append("' was updated. From ").append(oldValue).append(" to ").append(newValue);
             } else if (map.get("status").equals("deleted")) {
-                result.append(result.isEmpty() ? "" : "\n").append("Property ").append("'")
-                        .append(map.get("key")).append("' was removed");
+                getTemplate(result, map.get("key"));
+                result.append("' was removed");
             } else if (map.get("status").equals("added")) {
-                result.append(result.isEmpty() ? "" : "\n").append("Property ").append("'").append(map.get("key"))
-                        .append("' was added with value: ").append(newValue);
+                getTemplate(result, map.get("key"));
+                result.append("' was added with value: ").append(newValue);
             }
         }
         return result.isEmpty() ? "The files are the same" : result.toString();
+    }
+
+    private static void getTemplate(StringBuilder builder, Object key) {
+        builder.append(builder.isEmpty() ? "" : "\n").append("Property \'").append(key);
     }
 
     private static Object getValue(Object value) {

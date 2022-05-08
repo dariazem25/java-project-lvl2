@@ -27,41 +27,28 @@ public class Differ {
         Set<String> setOfKeys = new TreeSet<>(map1.keySet());
         setOfKeys.addAll(map2.keySet());
 
-        if (map1.isEmpty() && !map2.isEmpty() || map2.isEmpty() && !map1.isEmpty()) {
-            Set<String> keySet = new TreeSet<>(map1.isEmpty() ? map2.keySet() : map1.keySet());
-            String status = map1.isEmpty() ? "added" : "deleted";
-            String property = map1.isEmpty() ? "newValue" : "oldValue";
-            for (String key : keySet) {
-                Map<String, Object> map = new LinkedHashMap<>();
+        for (String key : setOfKeys) {
+            Map<String, Object> map = new LinkedHashMap<>();
+            if (map2.containsKey(key) && map1.containsKey(key) && Objects.equals(map2.get(key), map1.get(key))) {
                 map.put("key", key);
-                map.put(property, map1.isEmpty() ? map2.get(key) : map1.get(key));
-                map.put("status", status);
-                result.add(map);
+                map.put("oldValue", map1.get(key));
+                map.put("status", "unchanged");
+            } else if (map2.containsKey(key) && map1.containsKey(key)
+                    && !(Objects.equals(map2.get(key), map1.get(key)))) {
+                map.put("key", key);
+                map.put("oldValue", map1.get(key));
+                map.put("newValue", map2.get(key));
+                map.put("status", "changed");
+            } else if (!map2.containsKey(key)) {
+                map.put("key", key);
+                map.put("oldValue", map1.get(key));
+                map.put("status", "deleted");
+            } else if (!map1.containsKey(key)) {
+                map.put("key", key);
+                map.put("newValue", map2.get(key));
+                map.put("status", "added");
             }
-        } else {
-            for (String key : setOfKeys) {
-                Map<String, Object> map = new LinkedHashMap<>();
-                if (map2.containsKey(key) && map1.containsKey(key) && Objects.equals(map2.get(key), map1.get(key))) {
-                    map.put("key", key);
-                    map.put("oldValue", map1.get(key));
-                    map.put("status", "unchanged");
-                } else if (map2.containsKey(key) && map1.containsKey(key)
-                        && !(Objects.equals(map2.get(key), map1.get(key)))) {
-                    map.put("key", key);
-                    map.put("oldValue", map1.get(key));
-                    map.put("newValue", map2.get(key));
-                    map.put("status", "changed");
-                } else if (!map2.containsKey(key)) {
-                    map.put("key", key);
-                    map.put("oldValue", map1.get(key));
-                    map.put("status", "deleted");
-                } else if (!map1.containsKey(key)) {
-                    map.put("key", key);
-                    map.put("newValue", map2.get(key));
-                    map.put("status", "added");
-                }
-                result.add(map);
-            }
+            result.add(map);
         }
         return result;
     }
