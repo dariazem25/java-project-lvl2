@@ -10,14 +10,12 @@ import java.util.Map;
 
 public class Formatter {
 
-    public static String format(List<Map<String, Object>> list, String... formatName) throws IOException {
-        if (formatName.length == 0) {
+    public static String format(List<Map<String, Object>> list, String formatName) throws IOException {
+        if (formatName.equals("stylish")) {
             return Stylish.format(list);
-        } else if (formatName[0].equals("stylish")) {
-            return Stylish.format(list);
-        } else if (formatName[0].equals("plain")) {
+        } else if (formatName.equals("plain")) {
             return Plain.format(list);
-        } else if (formatName[0].equals("json")) {
+        } else if (formatName.equals("json")) {
             return Json.format(list);
         }
         throw new RuntimeException("Incorrect format value");

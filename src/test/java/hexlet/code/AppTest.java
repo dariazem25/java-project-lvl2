@@ -10,12 +10,16 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class AppTest {
 
+    private final String stylish = "stylish";
+    private final String plain = "plain";
+    private final String json = "json";
+
     @Test
     void partiallyDifferentFiles() throws Exception {
         String path1 = "src/test/resources/file1.json";
         String path2 = "src/test/resources/file2.json";
         String expected = FileReader.readFile("src/test/resources/expected/expected1.txt");
-        String actual = Differ.generate(path1, path2);
+        String actual = Differ.generate(path1, path2, stylish);
         Assertions.assertEquals(expected, actual);
     }
 
@@ -23,7 +27,7 @@ public class AppTest {
     void sameJsonFilesDefaultFormat() throws Exception {
         String path = "src/test/resources/file1.json";
         String expected = FileReader.readFile("src/test/resources/expected/expected2.txt");
-        String actual = Differ.generate(path, path);
+        String actual = Differ.generate(path, path, stylish);
         Assertions.assertEquals(expected, actual);
     }
 
@@ -31,7 +35,7 @@ public class AppTest {
     void sameYamlFilesDefaultFormat() throws Exception {
         String path = "src/test/resources/file8.yml";
         String expected = FileReader.readFile("src/test/resources/expected/expected2.txt");
-        String actual = Differ.generate(path, path);
+        String actual = Differ.generate(path, path, stylish);
         Assertions.assertEquals(expected, actual);
     }
 
@@ -40,7 +44,7 @@ public class AppTest {
         String path1 = "src/test/resources/file1.json";
         String path2 = "src/test/resources/file3.json";
         String expected = FileReader.readFile("src/test/resources/expected/expected3.txt");
-        String actual = Differ.generate(path1, path2);
+        String actual = Differ.generate(path1, path2, stylish);
         Assertions.assertEquals(expected, actual);
     }
 
@@ -49,7 +53,7 @@ public class AppTest {
         String path1 = "src/test/resources/file2.json";
         String path2 = "src/test/resources/file4.json";
         String expected = FileReader.readFile("src/test/resources/expected/expected4.txt");
-        String actual = Differ.generate(path1, path2);
+        String actual = Differ.generate(path1, path2, stylish);
         Assertions.assertEquals(expected, actual);
     }
 
@@ -57,7 +61,7 @@ public class AppTest {
     void emptyJsonFiles() throws Exception {
         String path = "src/test/resources/file5.json";
         String expected = "{" + "\n" + "}";
-        String actual = Differ.generate(path, path);
+        String actual = Differ.generate(path, path, stylish);
         Assertions.assertEquals(expected, actual);
     }
 
@@ -65,7 +69,7 @@ public class AppTest {
     void emptyJsonFilesPlainFormat() throws Exception {
         String path = "src/test/resources/file5.json";
         String expected = "The files are the same";
-        String actual = Differ.generate(path, path, "plain");
+        String actual = Differ.generate(path, path, plain);
         Assertions.assertEquals(expected, actual);
     }
 
@@ -73,7 +77,7 @@ public class AppTest {
     void emptyYamlFiles() throws Exception {
         String path = "src/test/resources/empty.yml";
         String expected = "{" + "\n" + "}";
-        String actual = Differ.generate(path, path);
+        String actual = Differ.generate(path, path, stylish);
         Assertions.assertEquals(expected, actual);
     }
 
@@ -81,7 +85,7 @@ public class AppTest {
     void emptyYamlFilesPlainFormat() throws Exception {
         String path = "src/test/resources/empty.yml";
         String expected = "The files are the same";
-        String actual = Differ.generate(path, path, "plain");
+        String actual = Differ.generate(path, path, plain);
         Assertions.assertEquals(expected, actual);
     }
 
@@ -90,7 +94,7 @@ public class AppTest {
         String path1 = "src/test/resources/file5.json";
         String path2 = "src/test/resources/file1.json";
         String expected = FileReader.readFile("src/test/resources/expected/expected5.txt");
-        String actual = Differ.generate(path1, path2);
+        String actual = Differ.generate(path1, path2, stylish);
         Assertions.assertEquals(expected, actual);
     }
 
@@ -99,7 +103,7 @@ public class AppTest {
         String path1 = "src/test/resources/file5.json";
         String path2 = "src/test/resources/file1.json";
         String expected = FileReader.readFile("src/test/resources/expected/expected6.txt");
-        String actual = Differ.generate(path1, path2, "plain");
+        String actual = Differ.generate(path1, path2, plain);
         Assertions.assertEquals(expected, actual);
     }
 
@@ -108,7 +112,7 @@ public class AppTest {
         String path1 = "src/test/resources/file1.json";
         String path2 = "src/test/resources/file5.json";
         String expected = FileReader.readFile("src/test/resources/expected/expected7.txt");
-        String actual = Differ.generate(path1, path2);
+        String actual = Differ.generate(path1, path2, stylish);
         Assertions.assertEquals(expected, actual);
     }
 
@@ -117,7 +121,7 @@ public class AppTest {
         String path1 = "src/test/resources/file1.json";
         String path2 = "src/test/resources/file5.json";
         String expected = FileReader.readFile("src/test/resources/expected/expected8.txt");
-        String actual = Differ.generate(path1, path2, "plain");
+        String actual = Differ.generate(path1, path2, plain);
         Assertions.assertEquals(expected, actual);
     }
 
@@ -126,7 +130,7 @@ public class AppTest {
         String path1 = "src/test/resources/empty.yml";
         String path2 = "src/test/resources/file8.yml";
         String expected = FileReader.readFile("src/test/resources/expected/expected5.txt");
-        String actual = Differ.generate(path1, path2);
+        String actual = Differ.generate(path1, path2, stylish);
         Assertions.assertEquals(expected, actual);
     }
 
@@ -135,7 +139,7 @@ public class AppTest {
         String path1 = "src/test/resources/empty.yml";
         String path2 = "src/test/resources/file8.yml";
         String expected = FileReader.readFile("src/test/resources/expected/expected6.txt");
-        String actual = Differ.generate(path1, path2, "plain");
+        String actual = Differ.generate(path1, path2, plain);
         Assertions.assertEquals(expected, actual);
     }
 
@@ -144,7 +148,7 @@ public class AppTest {
         String path1 = "src/test/resources/file8.yml";
         String path2 = "src/test/resources/empty.yml";
         String expected = FileReader.readFile("src/test/resources/expected/expected7.txt");
-        String actual = Differ.generate(path1, path2);
+        String actual = Differ.generate(path1, path2, stylish);
         Assertions.assertEquals(expected, actual);
     }
 
@@ -153,7 +157,7 @@ public class AppTest {
         String path1 = "src/test/resources/file8.yml";
         String path2 = "src/test/resources/empty.yml";
         String expected = FileReader.readFile("src/test/resources/expected/expected8.txt");
-        String actual = Differ.generate(path1, path2, "plain");
+        String actual = Differ.generate(path1, path2, plain);
         Assertions.assertEquals(expected, actual);
     }
 
@@ -161,21 +165,21 @@ public class AppTest {
     void incorrectFileStructure() {
         String path1 = "src/test/resources/file2.json";
         String path2 = "src/test/resources/file6.json";
-        assertThrows(JsonParseException.class, () -> Differ.generate(path1, path2));
+        assertThrows(JsonParseException.class, () -> Differ.generate(path1, path2, stylish));
     }
 
     @Test
     void differentExtensions() {
         String path1 = "src/test/resources/file1.json";
         String path2 = "src/test/resources/file7.txt";
-        assertThrows(RuntimeException.class, () -> Differ.generate(path1, path2));
+        assertThrows(RuntimeException.class, () -> Differ.generate(path1, path2, stylish));
     }
 
     @Test
     void fileAbsent() {
         String path1 = "src/test/resources/file1.json";
         String path2 = "src/test/resources/file8.json";
-        assertThrows(NoSuchFileException.class, () -> Differ.generate(path1, path2));
+        assertThrows(NoSuchFileException.class, () -> Differ.generate(path1, path2, stylish));
     }
 
     @Test
@@ -183,7 +187,7 @@ public class AppTest {
         String path1 = "src/test/resources/file8.yml";
         String path2 = "src/test/resources/file9.yml";
         String expected = FileReader.readFile("src/test/resources/expected/expected1.txt");
-        String actual = Differ.generate(path1, path2);
+        String actual = Differ.generate(path1, path2, stylish);
         Assertions.assertEquals(expected, actual);
     }
 
@@ -192,7 +196,7 @@ public class AppTest {
         String path1 = "src/test/resources/nested1.json";
         String path2 = "src/test/resources/nested2.json";
         String expected = FileReader.readFile("src/test/resources/expected/expected9.txt");
-        String actual = Differ.generate(path1, path2);
+        String actual = Differ.generate(path1, path2, stylish);
         Assertions.assertEquals(expected, actual);
     }
 
@@ -201,7 +205,7 @@ public class AppTest {
         String path1 = "src/test/resources/nested1.yml";
         String path2 = "src/test/resources/nested2.yml";
         String expected = FileReader.readFile("src/test/resources/expected/expected9.txt");
-        String actual = Differ.generate(path1, path2);
+        String actual = Differ.generate(path1, path2, stylish);
         Assertions.assertEquals(expected, actual);
     }
 
@@ -210,7 +214,7 @@ public class AppTest {
         String path1 = "src/test/resources/nested1.json";
         String path2 = "src/test/resources/nested2.json";
         String expected = FileReader.readFile("src/test/resources/expected/expected10.txt");
-        String actual = Differ.generate(path1, path2, "plain");
+        String actual = Differ.generate(path1, path2, plain);
         Assertions.assertEquals(expected, actual);
     }
 
@@ -219,7 +223,7 @@ public class AppTest {
         String path1 = "src/test/resources/nested1.yml";
         String path2 = "src/test/resources/nested2.yml";
         String expected = FileReader.readFile("src/test/resources/expected/expected10.txt");
-        String actual = Differ.generate(path1, path2, "plain");
+        String actual = Differ.generate(path1, path2, plain);
         Assertions.assertEquals(expected, actual);
     }
 
@@ -228,7 +232,7 @@ public class AppTest {
         String path1 = "src/test/resources/nested1.json";
         String path2 = "src/test/resources/nested2.json";
         String expected = FileReader.readFile("src/test/resources/expected/expected9.txt");
-        String actual = Differ.generate(path1, path2, "stylish");
+        String actual = Differ.generate(path1, path2, stylish);
         Assertions.assertEquals(expected, actual);
     }
 
@@ -237,7 +241,7 @@ public class AppTest {
         String path1 = "src/test/resources/nested1.yml";
         String path2 = "src/test/resources/nested2.yml";
         String expected = FileReader.readFile("src/test/resources/expected/expected9.txt");
-        String actual = Differ.generate(path1, path2, "stylish");
+        String actual = Differ.generate(path1, path2, stylish);
         Assertions.assertEquals(expected, actual);
     }
 
@@ -252,7 +256,7 @@ public class AppTest {
     void sameJsonFilesPlainFormat() throws Exception {
         String path = "src/test/resources/file1.json";
         String expected = "The files are the same";
-        String actual = Differ.generate(path, path, "plain");
+        String actual = Differ.generate(path, path, plain);
         Assertions.assertEquals(expected, actual);
     }
 
@@ -260,7 +264,7 @@ public class AppTest {
     void sameYamlFilesPlainFormat() throws Exception {
         String path = "src/test/resources/file8.yml";
         String expected = "The files are the same";
-        String actual = Differ.generate(path, path, "plain");
+        String actual = Differ.generate(path, path, plain);
         Assertions.assertEquals(expected, actual);
     }
 
@@ -268,7 +272,7 @@ public class AppTest {
     void compareJsonFilesJsonFormat() throws Exception {
         String path1 = "src/test/resources/nested1.json";
         String path2 = "src/test/resources/nested2.json";
-        String actual = Differ.generate(path1, path2, "json");
+        String actual = Differ.generate(path1, path2, json);
         String expected = FileReader.readFile("src/test/resources/jsonFormat.json");
         Assertions.assertEquals(expected, actual);
     }
@@ -277,7 +281,7 @@ public class AppTest {
     void compareYamlFilesYamlFormat() throws Exception {
         String path1 = "src/test/resources/nested1.yml";
         String path2 = "src/test/resources/nested2.yml";
-        String actual = Differ.generate(path1, path2, "json");
+        String actual = Differ.generate(path1, path2, json);
         String expected = FileReader.readFile("src/test/resources/jsonFormat.json");
         Assertions.assertEquals(expected, actual);
     }
