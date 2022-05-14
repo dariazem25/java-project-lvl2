@@ -10,7 +10,7 @@ public final class App implements Callable<Integer> {
 
     @CommandLine.Option(names = {"-f", "--format"}, defaultValue = "stylish",  paramLabel = "format",
             description = "output format [default: stylish]")
-    private String format;
+    private String format = "stylish";
 
     @CommandLine.Parameters(paramLabel = "filepath1", description = "path to first file")
     private String filepath1;

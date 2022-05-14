@@ -13,6 +13,6 @@ public class Differ {
 
         Map<String, Object> map1 = Parser.parse(data1, extension1);
         Map<String, Object> map2 = Parser.parse(data2, extension2);
-        return Formatter.format(Comparison.compare(map1, map2), formatName);
+        return Formatter.format(Comparator.compare(map1, map2), formatName);
     }
 }
