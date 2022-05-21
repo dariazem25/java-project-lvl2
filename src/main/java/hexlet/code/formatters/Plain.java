@@ -5,20 +5,20 @@ import java.util.Map;
 
 public class Plain {
 
-    public static String format(List<Map<String, Object>> list) {
+    public static String format(List<Map<String, Object>> comparedData) {
         StringBuilder result = new StringBuilder();
-        for (Map<String, Object> map : list) {
-            Object oldValue = getValue(map.get("oldValue"));
-            Object newValue = getValue(map.get("newValue"));
+        for (Map<String, Object> data : comparedData) {
+            Object oldValue = getValue(data.get("oldValue"));
+            Object newValue = getValue(data.get("newValue"));
 
-            if (map.get("status").equals("changed")) {
-                getTemplate(result, map.get("key"));
+            if (data.get("status").equals("changed")) {
+                getTemplate(result, data.get("key"));
                 result.append("' was updated. From ").append(oldValue).append(" to ").append(newValue);
-            } else if (map.get("status").equals("deleted")) {
-                getTemplate(result, map.get("key"));
+            } else if (data.get("status").equals("deleted")) {
+                getTemplate(result, data.get("key"));
                 result.append("' was removed");
-            } else if (map.get("status").equals("added")) {
-                getTemplate(result, map.get("key"));
+            } else if (data.get("status").equals("added")) {
+                getTemplate(result, data.get("key"));
                 result.append("' was added with value: ").append(newValue);
             }
         }

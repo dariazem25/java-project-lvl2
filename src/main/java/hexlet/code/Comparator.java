@@ -10,29 +10,29 @@ import java.util.TreeSet;
 
 public class Comparator {
 
-    public static List<Map<String, Object>> compare(Map<String, Object> map1, Map<String, Object> map2) {
+    public static List<Map<String, Object>> compare(Map<String, Object> data1, Map<String, Object> data2) {
         List<Map<String, Object>> result = new ArrayList<>();
-        Set<String> setOfKeys = new TreeSet<>(map1.keySet());
-        setOfKeys.addAll(map2.keySet());
+        Set<String> setOfKeys = new TreeSet<>(data1.keySet());
+        setOfKeys.addAll(data2.keySet());
 
         for (String key : setOfKeys) {
-            Map<String, Object> map = new LinkedHashMap<>();
-            map.put("key", key);
-            if (!map2.containsKey(key)) {
-                map.put("oldValue", map1.get(key));
-                map.put("status", "deleted");
-            } else if (!map1.containsKey(key)) {
-                map.put("newValue", map2.get(key));
-                map.put("status", "added");
-            } else if (Objects.equals(map2.get(key), map1.get(key))) {
-                map.put("oldValue", map1.get(key));
-                map.put("status", "unchanged");
-            } else if (!Objects.equals(map2.get(key), map1.get(key))) {
-                map.put("oldValue", map1.get(key));
-                map.put("newValue", map2.get(key));
-                map.put("status", "changed");
+            Map<String, Object> comparedData = new LinkedHashMap<>();
+            comparedData.put("key", key);
+            if (!data2.containsKey(key)) {
+                comparedData.put("oldValue", data1.get(key));
+                comparedData.put("status", "deleted");
+            } else if (!data1.containsKey(key)) {
+                comparedData.put("newValue", data2.get(key));
+                comparedData.put("status", "added");
+            } else if (Objects.equals(data2.get(key), data1.get(key))) {
+                comparedData.put("oldValue", data1.get(key));
+                comparedData.put("status", "unchanged");
+            } else if (!Objects.equals(data2.get(key), data1.get(key))) {
+                comparedData.put("oldValue", data1.get(key));
+                comparedData.put("newValue", data2.get(key));
+                comparedData.put("status", "changed");
             }
-            result.add(map);
+            result.add(comparedData);
         }
         return result;
     }

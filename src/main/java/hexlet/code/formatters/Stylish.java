@@ -5,19 +5,19 @@ import java.util.Map;
 
 public class Stylish {
 
-    public static String format(List<Map<String, Object>> list) {
+    public static String format(List<Map<String, Object>> comparedData) {
         StringBuilder result = new StringBuilder();
         result.append("{");
-        for (Map<String, Object> map : list) {
-            if (map.get("status").equals("unchanged")) {
-                result.append("\n\s\s\s\s").append(map.get("key")).append(": ").append(map.get("oldValue"));
-            } else if (map.get("status").equals("changed")) {
-                result.append("\n\s\s- ").append(map.get("key")).append(": ").append(map.get("oldValue"));
-                result.append("\n\s\s+ ").append(map.get("key")).append(": ").append(map.get("newValue"));
-            } else if (map.get("status").equals("deleted")) {
-                result.append("\n\s\s- ").append(map.get("key")).append(": ").append(map.get("oldValue"));
-            } else if (map.get("status").equals("added")) {
-                result.append("\n\s\s+ ").append(map.get("key")).append(": ").append(map.get("newValue"));
+        for (Map<String, Object> data : comparedData) {
+            if (data.get("status").equals("unchanged")) {
+                result.append("\n\s\s\s\s").append(data.get("key")).append(": ").append(data.get("oldValue"));
+            } else if (data.get("status").equals("changed")) {
+                result.append("\n\s\s- ").append(data.get("key")).append(": ").append(data.get("oldValue"));
+                result.append("\n\s\s+ ").append(data.get("key")).append(": ").append(data.get("newValue"));
+            } else if (data.get("status").equals("deleted")) {
+                result.append("\n\s\s- ").append(data.get("key")).append(": ").append(data.get("oldValue"));
+            } else if (data.get("status").equals("added")) {
+                result.append("\n\s\s+ ").append(data.get("key")).append(": ").append(data.get("newValue"));
             }
         }
         result.append("\n").append("}");

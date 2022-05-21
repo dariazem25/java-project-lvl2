@@ -12,9 +12,9 @@ public class Differ {
         String extension1 = FileReader.getExtension(path1);
         String extension2 = FileReader.getExtension(path2);
 
-        Map<String, Object> map1 = Parser.parse(data1, extension1);
-        Map<String, Object> map2 = Parser.parse(data2, extension2);
-        return Formatter.format(Comparator.compare(map1, map2), formatName);
+        Map<String, Object> parsedData1 = Parser.parse(data1, extension1);
+        Map<String, Object> parsedData2 = Parser.parse(data2, extension2);
+        return Formatter.format(Comparator.compare(parsedData1, parsedData2), formatName);
     }
 
     public static String generate(String filePath1, String filePath2) throws Exception {
